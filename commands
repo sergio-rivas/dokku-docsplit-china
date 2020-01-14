@@ -1,0 +1,38 @@
+[[ " help docsplit-china:help " == *" $1 "* ]] || exit "$DOKKU_NOT_IMPLEMENTED_EXIT"
+set -eo pipefail; [[ $DOKKU_TRACE ]] && set -x
+
+case "$1" in
+
+  help | docsplit-china:help)
+    help_content_func() {
+      #shellcheck disable=SC2034
+      declare desc="return docsplit-china plugin help content"
+      cat<<help_content
+    docsplit-china:install <app>, Sets up app for Docsplit dependency installation on future deployments.
+    docsplit-china:uninstall <app>, Removes Docsplit dependency installation on future deployments.
+
+    docsplit-china:help, Display docsplit-china help
+help_content
+    }
+
+    if [[ $1 = "docsplit-china:help" ]]; then
+      echo -e 'Usage: dokku docsplit-china[:COMMAND]'
+      echo ''
+      echo 'Plugin for sourcing docsplit dependency from China source.'
+      echo ''
+      echo 'Additional commands:'
+      help_content_func | sort | column -c2 -t -s,
+    elif [[ $(ps -o command= $PPID) == *"--all"* ]]; then
+      help_content_func
+    else
+      cat<<help_desc
+    docsplit-china, Plugin for sourcing docsplit dependency from China source
+help_desc
+    fi
+    ;;
+
+  *)
+    exit "$DOKKU_NOT_IMPLEMENTED_EXIT"
+    ;;
+
+esac
