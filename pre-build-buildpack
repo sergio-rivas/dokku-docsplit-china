@@ -5,11 +5,11 @@ source "$PLUGIN_AVAILABLE_PATH/config/functions"
 APP="$1"; IMAGE="dokku/$APP"
 
 eval "$(config_export app "$APP")"
-ffmpeg="$FFMPEG_REQUIRED"
+docsplit="$DOCSPLIT_REQUIRED"
 
 
-if [[ "$ffmpeg" == "true" ]] ; then
-echo "-----> Installing ffmpeg ..."
+if [[ "$docsplit" == "true" ]] ; then
+echo "-----> Installing docsplit ..."
 COMMAND=$(cat <<EOF
   echo "-----> install requirements"
 
